@@ -20,11 +20,24 @@ const calculator = {
 // Anytime a calculation is done we call this function to show the content of the showValue property
 *******************************************************************************************************
 */
-const updateResult = (result) => {
-  const display = document.querySelector(".calculator-result");
-  display.value = calculator.showValue;
-};
+const updateResult = () => {
+  const displayScreen = document.querySelector(".calculator-result");
+  const showValue = parseFloat(calculator.showValue);
+
+  // Updating my updateResult so when the calculator produce an invalid value 
+  // there will be an alert message instead of Infinity or Not a number shown on calculator and it will also reset the calculator. 
+ //  The Number.isFinite method identifies whether the value is a finite (countable) number.
+  // If it's not, an alert below is seen.
+  if (!Number.isFinite(showValue)) {
+    alert('Out of scope calculation');
+    clearCalculator();
+    return;
+  }
+  displayScreen.value = calculator.showValue;
+}
 updateResult();
+
+
 
 // created this function so I can listen for clicks on
 // the calculator keys and determine what type of key was clicked.
@@ -53,15 +66,15 @@ keys.addEventListener("click", (event) => {
     updateResult();
     return;
   } else if (event.target.classList.contains("calculator__percent")) {
-    controlSpecialSigns (target.value);
+    controlSpecialSigns(target.value);
     updateResult();
     return;
   } else if (event.target.classList.contains("calculator__plus-minus")) {
-    controlSpecialSigns (target.value);
+    controlSpecialSigns(target.value);
     updateResult();
     return;
   } else if (event.target.classList.contains("calculator__square-root")) {
-    controlSpecialSigns (target.value);
+    controlSpecialSigns(target.value);
     updateResult();
     return;
   } else if (event.target.classList.contains("calculator__decimal")) {
@@ -69,14 +82,14 @@ keys.addEventListener("click", (event) => {
     updateResult();
     return;
   } else if (event.target.classList.contains("calculator__all-clear")) {
-    clearCalculator(target.value)
+    clearCalculator(target.value);
     updateResult();
     return;
   } else clickDigit(target.value);
   updateResult();
 });
-// NOTE: I could use a swtich statement for the eventlistener, 
-// that way I will only invoke updateResult one at the end of the swirch statement.
+// NOTE: I could use a swtich statement for the eventlistener,
+// that way I will only invoke updateResult once at the end of the swirch statement.
 
 /****************************************************************************************
  *When the decimal point key is clicked on the calculator, I have to add a decimal point to whatever is
@@ -95,15 +108,15 @@ const insertDecimal = (decimal) => {
   }
 };
 /*
-This function is to reset the calculator to its original state by clicking AC. 
+This function is to reset the calculator to it original state by clicking AC. 
 */
 const clearCalculator = () => {
   const clearAll = document.getElementsByClassName("calculator__all-clear");
-  calculator.showValue = '0';
+  calculator.showValue = "0";
   calculator.previousOperand = null;
   calculator.checkingForCurrentOperand = false;
   calculator.operator = null;
-}
+};
 
 /*
 // The showValue property of the calculator object represents the input of the user,
@@ -149,10 +162,10 @@ const controlOperator = (nextOperator) => {
   // to a floating-point number
   const keyInValue = parseFloat(showValue);
   // this if statement is to prevent any calculation until the current operand is entered
-  // Example: I can enter the previousOperand and operator + then I cange my mind and enter - 
-  // instead of clearing the calculator, the first sign + will be replaced with - 
+  // Example: I can enter the previousOperand and operator + then I cange my mind and enter -
+  // instead of clearing the calculator, the first sign + will be replaced with -
   // then when I enter my currentOperand I will get a result for the - operator
-  if (operator && calculator.checkingForCurrentOperand)  {
+  if (operator && calculator.checkingForCurrentOperand) {
     calculator.operator = nextOperator;
     console.log(calculator);
     return;
@@ -195,24 +208,24 @@ const calculateResult = (previousOperand, currentOperand, operator) => {
 };
 
 // This function to get my special operators to work using switch statement
-// When the parameter 'specialSign' is % the signResult variable is assigned 
+// When the parameter 'specialSign' is % the signResult variable is assigned
 // to the calculation for percentage (/100) etc
 // The signResult is show at 5 decimal places
 // If checkingForCurrentOperand is true, it is set to
 // false so that the result of the function may be used as the current operand.
-const controlSpecialSigns= (specialSign) => {
+const controlSpecialSigns = (specialSign) => {
   const { showValue, checkingForCurrentOperand } = calculator;
   const currentInput = parseFloat(showValue);
   let signResult;
 
   switch (specialSign) {
-    case '%':
+    case "%":
       signResult = currentInput / 100;
       break;
-    case '±':
+    case "±":
       signResult = currentInput * -1;
       break;
-    case '√x':
+    case "√x":
       signResult = Math.sqrt(currentInput);
       break;
     default:
@@ -223,7 +236,10 @@ const controlSpecialSigns= (specialSign) => {
   if (checkingForCurrentOperand) {
     calculator.checkingForCurrentOperand = false;
   }
-}
+};
 
 
 
+
+
+  
