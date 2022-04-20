@@ -1,0 +1,110 @@
+@use "_base.scss" as *;
+
+.calculator-result {
+  width: 100%;
+  font-size: 5rem;
+  height: 80px;
+  border: none;
+  background-color: rgb(19, 18, 18);
+  color: $color-white;
+  text-align: right;
+  padding-right: 20px;
+  padding-left: 10px;
+}
+// grid container that hold the grid items i.e the buttons
+.calculator__buttons {
+  display: grid;
+  justify-content: center;
+// for desktop
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-row-gap: 20px;
+  grid-column-gap: 20px;
+  padding: 20px;
+}
+
+button {
+  height: 60px;
+  border-radius: 0.5%;
+  border: 1px solid #c4c4c4;
+  background-color: rgb(29, 27, 27);
+  font-size: 2rem;
+  color: $color-white;
+  cursor: pointer;
+  }
+
+button:hover {
+  background-color: $color-primary-light;
+}
+
+.calculator__sign {
+  color: $color-black;
+  background-color: rgb(165, 160, 160);
+}
+
+.calculator__all-clear {
+  background-color: $color-primary;
+  border-color: $color-primary-light;
+  color: #fff;
+}
+
+.calculator__all-clear:hover {
+  background-color: #f17377;
+}
+
+.equal-sign {
+  background-color: rgb(221, 172, 80);
+  border-color: $color-primary-light;
+  color: #fff;
+  border-radius: 0.5px;
+  //   move the equal button to row 2 and make it end at row 7
+  grid-row-start: 2;
+  grid-row-end: 7;
+  //   added height to the equal button for it to fill up from row 2-7
+  height: 100%;
+  //   move the equal button to
+  grid-column-start: 4;
+  grid-column-end: 5;
+}
+
+// grid-row: 2 / 7;
+// grid-column: 4 / 5;
+// OR
+// grid-area: 2 / 4 / 7 / 5;
+
+.equal-sign:hover {
+  background-color: #4e9ed4;
+}
+
+.percent {
+  background-color: rgb(221, 172, 80);
+  color: #fff;
+}
+.percent:hover {
+  background-color: #4e9ed4;
+}
+.plus-minus {
+  background-color: rgb(221, 172, 80);
+  color: #fff;
+}
+.plus-minus:hover {
+  background-color: #4e9ed4;
+}
+
+.square-root {
+  background-color: rgb(221, 172, 80);
+  color: #fff;
+}
+.square-root:hover {
+  background-color: #4e9ed4;
+}
+// for mobile phones
+@media screen and (max-width: 768px) {
+  section {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media screen and (max-width: 550px) {
+  section {
+    grid-template-columns: 1fr;
+  }
+}

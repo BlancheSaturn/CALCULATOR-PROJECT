@@ -1,0 +1,134 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.calculator-result {
+  width: 100%;
+  font-size: 5rem;
+  height: 80px;
+  border: none;
+  background-color: rgb(19, 18, 18);
+  color: #fafafa;
+  text-align: right;
+  padding-right: 20px;
+  padding-left: 10px;
+}
+
+.calculator__buttons {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-row-gap: 20px;
+  grid-column-gap: 20px;
+  padding: 20px;
+}
+
+button {
+  height: 60px;
+  border-radius: 0.5%;
+  border: 1px solid #c4c4c4;
+  background-color: rgb(29, 27, 27);
+  font-size: 2rem;
+  color: #fafafa;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #55a5f0;
+}
+
+.calculator__sign {
+  color: #333333;
+  background-color: rgb(165, 160, 160);
+}
+
+.calculator__all-clear {
+  background-color: #28527a;
+  border-color: #55a5f0;
+  color: #fff;
+}
+
+.calculator__all-clear:hover {
+  background-color: #f17377;
+}
+
+.equal-sign {
+  background-color: rgb(221, 172, 80);
+  border-color: #55a5f0;
+  color: #fff;
+  border-radius: 0.5px;
+  grid-row-start: 2;
+  grid-row-end: 7;
+  height: 100%;
+  grid-column-start: 4;
+  grid-column-end: 5;
+}
+
+.equal-sign:hover {
+  background-color: #4e9ed4;
+}
+
+.percent {
+  background-color: rgb(221, 172, 80);
+  color: #fff;
+}
+
+.percent:hover {
+  background-color: #4e9ed4;
+}
+
+.plus-minus {
+  background-color: rgb(221, 172, 80);
+  color: #fff;
+}
+
+.plus-minus:hover {
+  background-color: #4e9ed4;
+}
+
+.square-root {
+  background-color: rgb(221, 172, 80);
+  color: #fff;
+}
+
+.square-root:hover {
+  background-color: #4e9ed4;
+}
+
+@media screen and (max-width: 768px) {
+  section {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media screen and (max-width: 550px) {
+  section {
+    grid-template-columns: 1fr;
+  }
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+  font-weight: normal;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to right, rgb(49, 49, 48), rgb(89, 96, 93));
+}
+
+.calculator {
+  border: 1px solid rgb(140, 92, 92);
+  border-radius: 5px;
+  width: 600px;
+  height: 600px;
+  margin: 10vh auto 0 auto;
+  box-shadow: 0px 0px 43px 17px rgb(153, 153, 153);
+  background-color: #333333;
+}/*# sourceMappingURL=main.css.map */

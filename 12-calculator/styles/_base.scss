@@ -1,0 +1,15 @@
+$font-body: sans-serif, "Segoe UI", "Verdana";
+
+$color-primary: #28527a;
+$color-primary-light: #55a5f0;
+$color-secondary: #f0a500;
+$color-black: #333333;
+$color-white: #fafafa;
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
