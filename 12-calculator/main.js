@@ -89,7 +89,7 @@ keys.addEventListener("click", (event) => {
   updateResult();
 });
 // NOTE: I could use a swtich statement for the eventlistener,
-// that way I will only invoke updateResult once at the end of the swirch statement.
+// that way I will only invoke updateResult once at the end of the switch statement.
 
 /****************************************************************************************
  *When the decimal point key is clicked on the calculator, I have to add a decimal point to whatever is
@@ -101,10 +101,20 @@ keys.addEventListener("click", (event) => {
 
 const insertDecimal = (decimal) => {
   const addDecimal = document.getElementById("calculator__decimal");
+  // fix issue after I enter a decimal after clicking on an operator, 
+  // the decimal was added to the previousOperand instead of the currentOperand
+  // If checkingForPreviousOperand is set to true and a decimal point is inputted, showValue becomes 0. 
+  // and checkingForCurrentOperand is set to false so that any additional digits 
+  // are appended as part of the second operand.
+  if (calculator.checkingForCurrentOperand === true) {
+  	calculator.showValue = '0.'
+    calculator.checkingForCurrentOperand = false;
+    return;
+  }
   // checking to see if the `showValue` property of the calulator object does not contain a decimal point
   if (!calculator.showValue.includes(decimal)) {
     // Add the decimal point
-    return (calculator.showValue += decimal);
+    (calculator.showValue += decimal);
   }
 };
 /*
@@ -155,7 +165,7 @@ and whatever number the user enters next will be the current operand.
 
 const controlOperator = (nextOperator) => {
   // accessing the properties of the object by extracting them from object calculator and combine them to variables.
-  // Destructing the objects like below is better because neither the property names nor the object variable is duplicated.
+  // Destructuring the objects like below is better because neither the property names nor the object variable is duplicated.
   // you can read multiple properties from the same object in just one statement
   const { previousOperand, showValue, operator } = calculator;
   // parseFloat converts the string contents of showValue
@@ -167,26 +177,24 @@ const controlOperator = (nextOperator) => {
   // then when I enter my currentOperand I will get a result for the - operator
   if (operator && calculator.checkingForCurrentOperand) {
     calculator.operator = nextOperator;
-    console.log(calculator);
-    return;
   }
+  console.log(calculator);
   // confirm that previousOperand is null and that the keyInValue
   // is not a NaN value (NaN: NotaNumber)
   if (previousOperand === null && !isNaN(keyInValue)) {
     // Update the previousOperand property
-    return (calculator.previousOperand = keyInValue);
+    (calculator.previousOperand = keyInValue);
     // checks if the operator property has been assigned an operator.
     // If yes, the calculateResult function is invoked and the sum is saved in the calculation variable.
   } else if (operator) {
     const calculation = calculateResult(previousOperand, keyInValue, operator);
-    // The sum is  shown by updating the showValue property.
-    calculator.showValue = String(calculation);
+    // The sum is  shown by updating the showValue property. floating point number limit to 5 decimal places
+    calculator.showValue = `${parseFloat(calculation.toFixed(5))}`;
     // The value of previousOperand is updated to the result so that it may be used in the next calculation.
     calculator.previousOperand = calculation;
   }
   calculator.checkingForCurrentOperand = true;
   calculator.operator = nextOperator;
-  console.log(calculator);
 };
 
 /*
