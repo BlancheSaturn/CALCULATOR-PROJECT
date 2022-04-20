@@ -47,31 +47,36 @@ keys.addEventListener("click", (event) => {
 
   //  Using classList.contains to returns true if the calculator click contains the button we're listening for, otherwise false
   if (event.target.classList.contains("operator")) {
+    // updateResult function is invoked so that the new contents of the showValue
+    // property is shown on the screen after each number button is clicked.
     controlOperator(target.value);
     updateResult();
     return;
   } else if (event.target.classList.contains("calculator__percent")) {
-    // added the console to see whether I have an output on the dev tool when I click on the buttons
-    console.log("calculator__percent", target.value);
+    controlSpecialSigns (target.value);
+    updateResult();
     return;
   } else if (event.target.classList.contains("calculator__plus-minus")) {
-    console.log("calculator__plus-minus", target.value);
+    controlSpecialSigns (target.value);
+    updateResult();
     return;
   } else if (event.target.classList.contains("calculator__square-root")) {
-    console.log("calculator__square-root", target.value);
+    controlSpecialSigns (target.value);
+    updateResult();
     return;
   } else if (event.target.classList.contains("calculator__decimal")) {
     insertDecimal(target.value);
     updateResult();
     return;
   } else if (event.target.classList.contains("calculator__all-clear")) {
-    console.log("calculator__all-clear", target.value);
+    clearCalculator(target.value)
+    updateResult();
     return;
-    // updateResult function is invoked so that the new contents of the showValue
-    // property is shown on the screen after each number button is clicked.
   } else clickDigit(target.value);
   updateResult();
 });
+// NOTE: I could use a swtich statement for the eventlistener, 
+// that way I will only invoke updateResult one at the end of the swirch statement.
 
 /****************************************************************************************
  *When the decimal point key is clicked on the calculator, I have to add a decimal point to whatever is
@@ -89,6 +94,16 @@ const insertDecimal = (decimal) => {
     return (calculator.showValue += decimal);
   }
 };
+/*
+This function is to reset the calculator to its original state by clicking AC. 
+*/
+const clearCalculator = () => {
+  const clearAll = document.getElementsByClassName("calculator__all-clear");
+  calculator.showValue = '0';
+  calculator.previousOperand = null;
+  calculator.checkingForCurrentOperand = false;
+  calculator.operator = null;
+}
 
 /*
 // The showValue property of the calculator object represents the input of the user,
@@ -133,6 +148,15 @@ const controlOperator = (nextOperator) => {
   // parseFloat converts the string contents of showValue
   // to a floating-point number
   const keyInValue = parseFloat(showValue);
+  // this if statement is to prevent any calculation until the current operand is entered
+  // Example: I can enter the previousOperand and operator + then I cange my mind and enter - 
+  // instead of clearing the calculator, the first sign + will be replaced with - 
+  // then when I enter my currentOperand I will get a result for the - operator
+  if (operator && calculator.checkingForCurrentOperand)  {
+    calculator.operator = nextOperator;
+    console.log(calculator);
+    return;
+  }
   // confirm that previousOperand is null and that the keyInValue
   // is not a NaN value (NaN: NotaNumber)
   if (previousOperand === null && !isNaN(keyInValue)) {
@@ -167,6 +191,39 @@ const calculateResult = (previousOperand, currentOperand, operator) => {
   } else if (operator === "/") {
     return previousOperand / currentOperand;
   }
-
   return currentOperand;
 };
+
+// This function to get my special operators to work using switch statement
+// When the parameter 'specialSign' is % the signResult variable is assigned 
+// to the calculation for percentage (/100) etc
+// The signResult is show at 5 decimal places
+// If checkingForCurrentOperand is true, it is set to
+// false so that the result of the function may be used as the current operand.
+const controlSpecialSigns= (specialSign) => {
+  const { showValue, checkingForCurrentOperand } = calculator;
+  const currentInput = parseFloat(showValue);
+  let signResult;
+
+  switch (specialSign) {
+    case '%':
+      signResult = currentInput / 100;
+      break;
+    case '±':
+      signResult = currentInput * -1;
+      break;
+    case '√x':
+      signResult = Math.sqrt(currentInput);
+      break;
+    default:
+      signResult = 0;
+  }
+  calculator.showValue = `${parseFloat(signResult.toFixed(5))}`;
+
+  if (checkingForCurrentOperand) {
+    calculator.checkingForCurrentOperand = false;
+  }
+}
+
+
+
