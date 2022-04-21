@@ -10,7 +10,7 @@ const calculator = {
 };
 
 /*****************************************************
- * Created this function for the content of the showValue property
+ * Created this function updateScren for the content of the showValue property
  * which is one of the property in the calculator object to be shown on screen.
  * Anytime a calculation is done we call this function to show the content of the showValue property
  ******************************************************/
@@ -88,7 +88,7 @@ keys.addEventListener("click", (event) => {
 const insertDecimal = (decimal) => {
   const addDecimal = document.getElementById("calculator__decimal");
   if (calculator.checkingForCurrentOperand === true) {
-    // After nputting the firstOperand, operator and checkingForCurrentOperand is true, then click a decimal.
+    // After inputting the firstOperand, operator and checkingForCurrentOperand is true, then click a decimal.
     calculator.showValue = "0."; //showValue will show 0., which means the decimal is appended to the currentOperand
     calculator.checkingForCurrentOperand = false;
     return;
@@ -150,7 +150,7 @@ const controlOperator = (nextOperator) => {
   }
   console.log(calculator);
 
-  if (previousOperand === null && !isNaN(currentInputValue)) {
+  if (!previousOperand && !isNaN(currentInputValue)) {
     // confirm that previousOperand is null and that the currentInputValue.  // is not a NaN value (NaN: NotaNumber)
     calculator.previousOperand = currentInputValue; // Update the previousOperand property
   } else if (operator) {
@@ -193,12 +193,12 @@ const calculateResult = (previousOperand, currentOperand, operator) => {
  * If checkingForCurrentOperand is true, it is set to
  * false so that the result of the function may be used as the current operand.
  ****************************************************************************/
-const controlSpecialOperator = (specialSign) => {
+const controlSpecialOperator = (specialOperator) => {
   const { showValue, checkingForCurrentOperand } = calculator;
   const currentInput = parseFloat(showValue);
   let signResult;
 
-  switch (specialSign) {
+  switch (specialOperator) {
     case "%":
       signResult = currentInput / 100;
       break;
