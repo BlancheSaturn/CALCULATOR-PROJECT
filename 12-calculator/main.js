@@ -1,33 +1,29 @@
 /* ***************************************************************
  * created a calculator object to hold everything that is required to construct a valid expression
  * I need to track some things in other to complete a valid arithmetic expression.
- **********************************************************************************************
- */
+ *****************************************************************/
 const calculator = {
-  // this holds the string value (what user inputted or the result of a completed calculation). Tracks what is showns on screen
-  showValue: "0",
-  // this holds the result of the previous operation in the calculator
-  previousOperand: null,
-  // checks if both the previous operation and the operator are inputted, if true the next numbers inputted will be the current operand
-  checkingForCurrentOperand: false,
-  // stores the operator for an expression.
-  operator: null,
+  showValue: "0", // this holds the string value (what user inputted or the result of a completed calculation). Tracks what is showns on screen
+  previousOperand: null, // this holds the result of the previous operation in the calculator
+  checkingForCurrentOperand: false, // checks if both the previous operation and the operator are inputted, if true the next numbers inputted will be the current operand
+  operator: null, // stores the operator for an expression.
 };
 
-/*******************************************************************************************************
-* Created this function for the content of the showValue property
-// which is one of the property in the calculator object to be shown on screen.
-// Anytime a calculation is done we call this function to show the content of the showValue property
-*******************************************************************************************************
-*/
+/*****************************************************
+ * Created this function for the content of the showValue property
+ * which is one of the property in the calculator object to be shown on screen.
+ * Anytime a calculation is done we call this function to show the content of the showValue property
+ ******************************************************/
+
+/****************************************************************
+ * Updating my updateScreen so when the calculator produce an invalid value
+ * there will be an alert message instead of Infinity or Not a number shown on calculator and it will also reset the calculator.
+ * The Number.isFinite method identifies whether the value is a finite (countable) number.
+ * If it's not, an alert below is seen.
+ ******************************************************************/
 const updateScreen = () => {
   const displayScreen = document.querySelector(".calculator-result");
   const showValue = parseFloat(calculator.showValue);
-
-  // Updating my updateScreen so when the calculator produce an invalid value
-  // there will be an alert message instead of Infinity or Not a number shown on calculator and it will also reset the calculator.
-  //  The Number.isFinite method identifies whether the value is a finite (countable) number.
-  // If it's not, an alert below is seen.
   if (!Number.isFinite(showValue)) {
     alert("Out of scope calculation");
     clearCalculator();
@@ -36,43 +32,38 @@ const updateScreen = () => {
   displayScreen.value = calculator.showValue;
 };
 updateScreen();
+/*****************************************************************
+ * created this function so I can listen for clicks on
+ * the calculator keys and determine what type of key was clicked.
+ * We have these set of buttons on the calculator (calculator__operator, calculator__percent,
+ * calculator__plus-minus,calculator__square-root,calcultor__digit, calculator__decimal,calculator__all-clear, equal-sign)
+ * Check if the clicked element is a button.
+ * If not, exit from the function
+ * the querySelector() returns the first element that matches a CSS selector
+ *****************************************************************/
 
-// created this function so I can listen for clicks on
-// the calculator keys and determine what type of key was clicked.
-// We have these set of buttons on the calculator (calculator__operator, calculator__percent,
-// calculator__plus-minus,calculator__square-root,calcultor__digit, calculator__decimal,calculator__all-clear, equal-sign)
-
-// Check if the clicked element is a button.
-// If not, exit from the function
-// the querySelector() returns the first element that matches a CSS selector
 const keys = document.querySelector(".calculator__buttons");
 keys.addEventListener("click", (event) => {
-  // keys.innerHTML = 'Clicked'
-  // accessing the clicked element
-  const target = event.target;
-  // Looking to see  if the clicked element is a button.
-  // If it not a button, exit from the function
+  const target = event.target; // accessing the clicked element
   if (!target.matches("button")) {
+    // Looking to see  if the clicked element is a button. If it not a button, exit from the function
     return;
   }
-
-  //  Using classList.contains to returns true if the calculator click contains the button we're listening for, otherwise false
   if (event.target.classList.contains("operator")) {
-    // updateScreen function is invoked so that the new contents of the showValue
-    // property is shown on the screen after each number button is clicked.
+    //  Using classList.contains to returns true if the calculator click contains the button we're listening for, otherwise false
     controlOperator(target.value);
     updateScreen();
     return;
   } else if (event.target.classList.contains("calculator__percent")) {
-    controlSpecialSigns(target.value);
+    controlSpecialOperator(target.value);
     updateScreen();
     return;
   } else if (event.target.classList.contains("calculator__plus-minus")) {
-    controlSpecialSigns(target.value);
+    controlSpecialOperator(target.value);
     updateScreen();
     return;
   } else if (event.target.classList.contains("calculator__square-root")) {
-    controlSpecialSigns(target.value);
+    controlSpecialOperator(target.value);
     updateScreen();
     return;
   } else if (event.target.classList.contains("calculator__decimal")) {
@@ -86,38 +77,30 @@ keys.addEventListener("click", (event) => {
   } else clickDigit(target.value);
   updateScreen();
 });
-// NOTE: I could use a swtich statement for the eventlistener,
-// that way I will only invoke updateScreen once at the end of the switch statement.
 
-/****************************************************************************************
- *When the decimal point key is clicked on the calculator, I have to add a decimal point to whatever is
- *shown on the screen except if it already has a decimal point.
- *In insertDecimal function, I used the includes() method  to check if shownValue
- *has a decimal point. If true, a decimal is added to the number.
- *****************************************************************************************
- */
+/*******************************************************************
+ * When the decimal point key is clicked on the calculator, I have to add a decimal point to whatever is
+ * shown on the screen except if it already has a decimal point.
+ * In insertDecimal function, I used the includes() method  to check if shownValue
+ * has a decimal point. If true, a decimal is added to the number.
+ *******************************************************************/
 
 const insertDecimal = (decimal) => {
   const addDecimal = document.getElementById("calculator__decimal");
-  // fix issue after I enter a decimal after clicking on an operator,
-  // the decimal was added to the previousOperand instead of the currentOperand
-  // If checkingForPreviousOperand is set to true and a decimal point is inputted, showValue becomes 0.
-  // and checkingForCurrentOperand is set to false so that any additional digits
-  // are appended as part of the second operand.
   if (calculator.checkingForCurrentOperand === true) {
-    calculator.showValue = "0.";
+    // After nputting the firstOperand, operator and checkingForCurrentOperand is true, then click a decimal.
+    calculator.showValue = "0."; //showValue will show 0., which means the decimal is appended to the currentOperand
     calculator.checkingForCurrentOperand = false;
     return;
   }
-  // checking to see if the `showValue` property of the calulator object does not contain a decimal point
   if (!calculator.showValue.includes(decimal)) {
-    // Add the decimal point
-    calculator.showValue += decimal;
+    // checking to see if the `showValue` property of the calulator object does not contain a decimal point
+    calculator.showValue += decimal; // Add the decimal point
   }
 };
-/*
+/****************************************************************
 This function is to reset the calculator to it original state by clicking AC. 
-*/
+*****************************************************************/
 const clearCalculator = () => {
   const clearAll = document.getElementsByClassName("calculator__all-clear");
   calculator.showValue = "0";
@@ -126,32 +109,29 @@ const clearCalculator = () => {
   calculator.operator = null;
 };
 
-/*
-// The showValue property of the calculator object represents the input of the user,
-// Creating a function clickDigit to make the digit (numbers) buttons work so that when I click on them,
-// the value of the clicked button is shown on the screen.
+/****************************************************************
+The showValue property of the calculator object represents the input of the user.
+Creating this function clickDigit to make the digit (numbers) buttons work so that when I click on them,
+the value of the clicked button is shown on the screen.
 
-// checkingForSecondOperand property is set to true, the showValue property
-//  is replace with the number that was clicked. Else it will 
-//  replace or add to showValue as appropriate.
-*/
+checkingForSecondOperand property is set to true, the showValue property
+ is replace with the number that was clicked. Else it will 
+ replace or add to showValue as appropriate.
+ *****************************************************************/
+
 const clickDigit = (digit) => {
-  // make {showValue} to string
   const { showValue, checkingForCurrentOperand } = calculator;
   if (checkingForCurrentOperand === true) {
     calculator.showValue = digit;
     calculator.checkingForCurrentOperand = false;
-    // Replace`showValue` with clicked number if the current value is '0' otherwise add to it through string concatenation
-    // (?) is used to check if the current value shown on the calculator is zero.
-    // When true, calculator.showValue is overwritten with whatever digit was clicked.
   } else {
-    calculator.showValue = showValue === "0" ? digit : showValue + digit;
+    calculator.showValue = showValue === "0" ? digit : showValue + digit; // Replace`showValue` with clicked number if the current value is '0' otherwise add to it through string concatenation// (?) is used to check if the current value shown on the calculator is zero.// When true, calculator.showValue is overwritten with whatever digit was clicked.
   }
   console.log(calculator);
 };
 
 /**********************************************************************************************************
-This function controlOperator is to get the operators (+, −, ⨉, ÷, =) on the calculator to work. 
+*This function controlOperator is to get the operators (+, −, ⨉, ÷, =) on the calculator to work. 
 Operator button is clicked, the input of showValue is converted to a floating-point number 
 and the result is stored in the previousOperand property.
 
@@ -162,44 +142,36 @@ and whatever number the user enters next will be the current operand.
 */
 
 const controlOperator = (nextOperator) => {
-  // accessing the properties of the object by extracting them from object calculator and combine them to variables.
-  // Destructuring the objects like below is better because neither the property names nor the object variable is duplicated.
-  // you can read multiple properties from the same object in just one statement
   const { previousOperand, showValue, operator } = calculator;
-  // parseFloat converts the string contents of showValue
-  // to a floating-point number
-  const keyInValue = parseFloat(showValue);
-  // this if statement is to prevent any calculation until the current operand is entered
-  // Example: I can enter the previousOperand and operator + then I cange my mind and enter -
-  // instead of clearing the calculator, the first sign + will be replaced with -
-  // then when I enter my currentOperand I will get a result for the - operator
+  const currentInputValue = parseFloat(showValue);
   if (operator && calculator.checkingForCurrentOperand) {
     calculator.operator = nextOperator;
+    return;
   }
   console.log(calculator);
-  // confirm that previousOperand is null and that the keyInValue
-  // is not a NaN value (NaN: NotaNumber)
-  if (previousOperand === null && !isNaN(keyInValue)) {
-    // Update the previousOperand property
-    calculator.previousOperand = keyInValue;
-    // checks if the operator property has been assigned an operator.
-    // If yes, the calculateResult function is invoked and the sum is saved in the calculation variable.
+
+  if (previousOperand === null && !isNaN(currentInputValue)) {
+    // confirm that previousOperand is null and that the currentInputValue.  // is not a NaN value (NaN: NotaNumber)
+    calculator.previousOperand = currentInputValue; // Update the previousOperand property
   } else if (operator) {
-    const calculation = calculateResult(previousOperand, keyInValue, operator);
-    // The sum is  shown by updating the showValue property. floating point number limit to 5 decimal places
-    calculator.showValue = `${parseFloat(calculation.toFixed(5))}`;
-    // The value of previousOperand is updated to the result so that it may be used in the next calculation.
-    calculator.previousOperand = calculation;
+    // checks if the operator property has been assigned an operator. // If yes, the calculateResult function is called  and the sum is saved in the calculation variable.
+    const calculation = calculateResult(
+      previousOperand,
+      currentInputValue,
+      operator
+    );
+    calculator.showValue = `${parseFloat(calculation.toFixed(9))}`;
+    calculator.previousOperand = calculation; // The value of previousOperand is updated to the result so that it may be used in the next calculation.
   }
   calculator.checkingForCurrentOperand = true;
   calculator.operator = nextOperator;
 };
 
-/*
+/********************************************************************
 calculateResult function takes the previous operand, current operand and operator as arguments and checks 
 the value of the operator to determine how the expression should be assessed. 
 If the operator is =, the current operand will be returned as is.
-*/
+*******************************************************************/
 const calculateResult = (previousOperand, currentOperand, operator) => {
   if (operator === "+") {
     return previousOperand + currentOperand;
@@ -213,13 +185,15 @@ const calculateResult = (previousOperand, currentOperand, operator) => {
   return currentOperand;
 };
 
-// This function to get my special operators to work using switch statement
-// When the parameter 'specialSign' is % the signResult variable is assigned
-// to the calculation for percentage (/100) etc
-// The signResult is show at 5 decimal places
-// If checkingForCurrentOperand is true, it is set to
-// false so that the result of the function may be used as the current operand.
-const controlSpecialSigns = (specialSign) => {
+/*************************************************************************
+ * This function to get my special operators to work using switch statement
+ * When the parameter 'specialSign' is % the signResult variable is assigned
+ * to the calculation for percentage (/100) etc
+ * The signResult is show at 5 decimal places
+ * If checkingForCurrentOperand is true, it is set to
+ * false so that the result of the function may be used as the current operand.
+ ****************************************************************************/
+const controlSpecialOperator = (specialSign) => {
   const { showValue, checkingForCurrentOperand } = calculator;
   const currentInput = parseFloat(showValue);
   let signResult;
@@ -237,7 +211,7 @@ const controlSpecialSigns = (specialSign) => {
     default:
       signResult = 0;
   }
-  calculator.showValue = `${parseFloat(signResult.toFixed(5))}`;
+  calculator.showValue = `${parseFloat(signResult.toFixed(9))}`;
 
   if (checkingForCurrentOperand) {
     calculator.checkingForCurrentOperand = false;
