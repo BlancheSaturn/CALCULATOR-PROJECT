@@ -20,24 +20,22 @@ const calculator = {
 // Anytime a calculation is done we call this function to show the content of the showValue property
 *******************************************************************************************************
 */
-const updateResult = () => {
+const updateScreen = () => {
   const displayScreen = document.querySelector(".calculator-result");
   const showValue = parseFloat(calculator.showValue);
 
-  // Updating my updateResult so when the calculator produce an invalid value 
-  // there will be an alert message instead of Infinity or Not a number shown on calculator and it will also reset the calculator. 
- //  The Number.isFinite method identifies whether the value is a finite (countable) number.
+  // Updating my updateScreen so when the calculator produce an invalid value
+  // there will be an alert message instead of Infinity or Not a number shown on calculator and it will also reset the calculator.
+  //  The Number.isFinite method identifies whether the value is a finite (countable) number.
   // If it's not, an alert below is seen.
   if (!Number.isFinite(showValue)) {
-    alert('Out of scope calculation');
+    alert("Out of scope calculation");
     clearCalculator();
     return;
   }
   displayScreen.value = calculator.showValue;
-}
-updateResult();
-
-
+};
+updateScreen();
 
 // created this function so I can listen for clicks on
 // the calculator keys and determine what type of key was clicked.
@@ -60,36 +58,36 @@ keys.addEventListener("click", (event) => {
 
   //  Using classList.contains to returns true if the calculator click contains the button we're listening for, otherwise false
   if (event.target.classList.contains("operator")) {
-    // updateResult function is invoked so that the new contents of the showValue
+    // updateScreen function is invoked so that the new contents of the showValue
     // property is shown on the screen after each number button is clicked.
     controlOperator(target.value);
-    updateResult();
+    updateScreen();
     return;
   } else if (event.target.classList.contains("calculator__percent")) {
     controlSpecialSigns(target.value);
-    updateResult();
+    updateScreen();
     return;
   } else if (event.target.classList.contains("calculator__plus-minus")) {
     controlSpecialSigns(target.value);
-    updateResult();
+    updateScreen();
     return;
   } else if (event.target.classList.contains("calculator__square-root")) {
     controlSpecialSigns(target.value);
-    updateResult();
+    updateScreen();
     return;
   } else if (event.target.classList.contains("calculator__decimal")) {
     insertDecimal(target.value);
-    updateResult();
+    updateScreen();
     return;
   } else if (event.target.classList.contains("calculator__all-clear")) {
     clearCalculator(target.value);
-    updateResult();
+    updateScreen();
     return;
   } else clickDigit(target.value);
-  updateResult();
+  updateScreen();
 });
 // NOTE: I could use a swtich statement for the eventlistener,
-// that way I will only invoke updateResult once at the end of the switch statement.
+// that way I will only invoke updateScreen once at the end of the switch statement.
 
 /****************************************************************************************
  *When the decimal point key is clicked on the calculator, I have to add a decimal point to whatever is
@@ -101,20 +99,20 @@ keys.addEventListener("click", (event) => {
 
 const insertDecimal = (decimal) => {
   const addDecimal = document.getElementById("calculator__decimal");
-  // fix issue after I enter a decimal after clicking on an operator, 
+  // fix issue after I enter a decimal after clicking on an operator,
   // the decimal was added to the previousOperand instead of the currentOperand
-  // If checkingForPreviousOperand is set to true and a decimal point is inputted, showValue becomes 0. 
-  // and checkingForCurrentOperand is set to false so that any additional digits 
+  // If checkingForPreviousOperand is set to true and a decimal point is inputted, showValue becomes 0.
+  // and checkingForCurrentOperand is set to false so that any additional digits
   // are appended as part of the second operand.
   if (calculator.checkingForCurrentOperand === true) {
-  	calculator.showValue = '0.'
+    calculator.showValue = "0.";
     calculator.checkingForCurrentOperand = false;
     return;
   }
   // checking to see if the `showValue` property of the calulator object does not contain a decimal point
   if (!calculator.showValue.includes(decimal)) {
     // Add the decimal point
-    (calculator.showValue += decimal);
+    calculator.showValue += decimal;
   }
 };
 /*
@@ -183,7 +181,7 @@ const controlOperator = (nextOperator) => {
   // is not a NaN value (NaN: NotaNumber)
   if (previousOperand === null && !isNaN(keyInValue)) {
     // Update the previousOperand property
-    (calculator.previousOperand = keyInValue);
+    calculator.previousOperand = keyInValue;
     // checks if the operator property has been assigned an operator.
     // If yes, the calculateResult function is invoked and the sum is saved in the calculation variable.
   } else if (operator) {
@@ -230,7 +228,7 @@ const controlSpecialSigns = (specialSign) => {
     case "%":
       signResult = currentInput / 100;
       break;
-    case "±":
+    case "+/-":
       signResult = currentInput * -1;
       break;
     case "√x":
@@ -245,9 +243,3 @@ const controlSpecialSigns = (specialSign) => {
     calculator.checkingForCurrentOperand = false;
   }
 };
-
-
-
-
-
-  
