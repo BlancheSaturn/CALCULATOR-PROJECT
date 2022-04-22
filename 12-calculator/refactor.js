@@ -1,3 +1,4 @@
+/* Refactor calculator code, make functions pure also make eventlistener to switch statement so I can invoke update Screen function invoke only once.
 /**********************************************************
  * function to get the operators (+, −, ⨉, ÷, =) on the calculator to work.
  * Operator button is clicked, the input of showValue is converted to a floating-point number
@@ -26,3 +27,8 @@
     calculator.operator = nextOperator;
     return calculator
   };
+
+   // this if statement is to prevent any calculation until the current operand is entered
+  // Example: I can enter the previousOperand and operator + then I cange my mind and enter -
+  // instead of clearing the calculator, the first sign + will be replaced with -
+  // then when I enter my currentOperand I will get a result for the - operator
