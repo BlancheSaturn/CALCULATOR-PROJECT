@@ -57,6 +57,15 @@ body {
   text-transform: uppercase;
 }
 
+.result{
+  display: flex;
+  justify-content: center;
+  align-items: center ;
+  font-size: 50px;
+ 
+}
+
+
 @media screen and (max-width: 768px) {
   section {
     grid-template-columns: 1fr 1fr;
