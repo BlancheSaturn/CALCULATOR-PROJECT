@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morse Code Translator</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+    <main>
+        <div id="caption">
+            <h1>Text to Morse Code Translator</h1>
+        </div>
+
+
+        <hr>
+
+        <div class="input-container">
+            <div id="language">
+                <label>Choose Language</label>
+                <select id="select-option" value ='0'>
+                    <option value ='0'>English To Morse</option>
+                    <option value ='1'>English To German</option>
+                </select>
+            </div>
+
+            <div class="textarea1">
+                <textarea id="text-to-translate" cols="60" rows="8">Insert English Here</textarea>
+            </div>
+
+            <button id="translate-btn">Translate</button>
+
+            <div class=textarea2>
+                <textarea disabled id="translated-text" cols="60" rows="8">Translated Text</textarea> 
+            </div>
+        </div>
+
+        <script src="main.js"></script>
+    </main>
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+
+#caption{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.input-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 30px;
+}
+
+#translate-btn {
+    background-color: aliceblue;
+    width: 150px;
+    height: 40px;
+    font-size: medium;
+    border-radius: 5px;
+    
+}
+
+#translate-btn:hover{
+    background-color: rgb(206, 201, 201);
+}
+
+#language{
+    margin-bottom: 50px;
+}
+select{
+    width: 150px;
+    height: 30px;
+    background-color: antiquewhite;
+    border-radius: 5px;
+
+}
+
+label{
+    font-size: medium;
+    font-weight: bold;
+    
+}
+
+.textarea1 {
+    margin-bottom: 50px;
+}
+
+.textarea2 {
+    margin-top: 50px;
+}
+
+
+
