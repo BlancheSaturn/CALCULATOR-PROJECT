@@ -6,7 +6,7 @@ const resultMessage = document.getElementById("game__result-message");
 const playerGoMsg = document.getElementById("playerTurn");
 
 
-// we have to define a few more variables to use in our function for cliking the boxes
+// I have to define a few variables to use in our function
 const container = []; // container variable is an empty array
 const playCircle = "O"; //defining O and X as user need them for playing the game
 const playX = "X"; //defining O and X as user need them for playing the game
