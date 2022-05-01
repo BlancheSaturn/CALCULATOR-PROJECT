@@ -31,6 +31,7 @@ boxes.forEach((box) => {
         title.innerText = `Player ${currentPlayer} has won!`;
         //  calling function to restart our game. The return statement will take us out of the condition.
         playerGoMsg.innerHTML = ``;
+        disableGame();
         restart();
         return;
       }
@@ -81,6 +82,7 @@ boxes.forEach((box) => {
 // 1, 4 and 7
 // 3, 4 and 5
 
+
 const gameWon = () => {
   if (container[0] === currentPlayer) { // constant index 0
     
@@ -124,6 +126,14 @@ const gameWon = () => {
     }
   }
 };
+// ISSUE - I NEED TO DISABLE CONTAINER WHEN A GAME IS WON??? disable container Function
+const disableGame = () => {
+  document.querySelectorAll('.box').forEach(box => boxes.disabled = true);
+  // boxes.forEach((box) => {
+  // if (title.innerText = `Player ${currentPlayer} has won!`)
+  // document.querySelectorAll(".box").diabled = true;
+  // })
+}
 // gameDraw function. This function is checking to see if 
 // all the boxes are filled and no winning condition is met, then the match is a draw. 
 // I am using a different approach for this function. I am using a variable that will increment after each box is clicked. 
