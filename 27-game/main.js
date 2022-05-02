@@ -37,7 +37,7 @@ boxes.forEach((box) => {
       }
       // calling function gameDraw.
       if (gameDraw()) {
-        // playerGoMsg.innerHTML = ``; //ISSUE
+        playerGoMsg.innerHTML = ``; //ISSUE this message not clearing when game is drawn
         return;
       }
       // Function to change the currentPlayer depending on the last symbol.
@@ -54,7 +54,7 @@ boxes.forEach((box) => {
 // gameWon function will check for the winning combinations on the game
 // I am checking each of the conditions that for the winning combinations
 // If a condition passes, then I are showing the resultMessage on my game__result-message h2 using innerText
-// then we are returning true. The return true value is important, on §the clickBoxes function,
+// then we are returning true. The return true value is important, on the clickBoxes function,
 // we wait for the return value in our conditional statement.
 
 //   Possible winning combinations:
@@ -127,13 +127,17 @@ const gameWon = () => {
   }
 };
 // ISSUE - I NEED TO DISABLE CONTAINER WHEN A GAME IS WON??? disable container Function
+let disableAreas = true
+const disableBoxes = []
 const disableGame = () => {
-  document.querySelectorAll('.box').forEach(box => boxes.disabled = true);
-  // boxes.forEach((box) => {
-  // if (title.innerText = `Player ${currentPlayer} has won!`)
-  // document.querySelectorAll(".box").diabled = true;
-  // })
+  if (disableAreas === false) {
+  document.querySelectorAll('.box')
+ disableBoxes.forEach(box => box.disabled = true)
+  }
 }
+
+
+  
 // gameDraw function. This function is checking to see if 
 // all the boxes are filled and no winning condition is met, then the match is a draw. 
 // I am using a different approach for this function. I am using a variable that will increment after each box is clicked. 
@@ -169,7 +173,7 @@ const restart = () => {
     title.innerText = `Tic Tac Toe`;
     resultMessage.innerText = ``;
     playerGoMsg.innerHTML = ``;
-  }, 4000);
+  }, 50000);
 };
 
 // restartButton function for the restart button, when click reset our boxes to null and clear the boxes
