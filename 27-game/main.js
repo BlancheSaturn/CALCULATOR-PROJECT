@@ -84,6 +84,9 @@ boxes.forEach((box) => {
 
 
 const gameWon = () => {
+  // if (gameOver === true) {
+  //   return;
+  // }
   if (container[0] === currentPlayer) { // constant index 0
     
     if (container[1] === currentPlayer && container[2] === currentPlayer) {
@@ -127,13 +130,21 @@ const gameWon = () => {
   }
 };
 // ISSUE - I NEED TO DISABLE CONTAINER WHEN A GAME IS WON??? disable container Function
-let disableAreas = true
-const disableBoxes = []
-const disableGame = () => {
-  if (disableAreas === false) {
-  document.querySelectorAll('.box')
+// let disableAreas = true
+// const disableBoxes = []
+// const disableGame = () => {
+//   if (disableAreas === false) {
+  // document.querySelectorAll('.box')
+//  disableBoxes.forEach(box => box.disabled = true)
+//   }
+// }
+
+let gameOver = false
+const disableBoxes = document.querySelectorAll('.box')
+const disableGame = (_finish) => { 
+  if(gameOver === true)
  disableBoxes.forEach(box => box.disabled = true)
-  }
+ return;
 }
 
 
@@ -145,7 +156,7 @@ const disableGame = () => {
 
 const gameDraw = () => {
   let draw = 0;
-  container.forEach((area, i) => {
+  container.forEach((_area, i) => {
     if (container[i] !== null) draw++;
   });
   if (draw === 9) {
@@ -164,7 +175,7 @@ const gameDraw = () => {
 
 const restart = () => {
   setTimeout(() => {
-    container.forEach((area, i) => {
+    container.forEach((_area, i) => {
       container[i] = null;
     });
     boxes.forEach((box) => {
@@ -181,16 +192,16 @@ const restart = () => {
 
 // Issues when I clicked restart button, i think it waiting for my setTimeout seconds to 
 // finish b4 I can play game properly again 
-const restartBotton = document.getElementById("game__restart");
-restartBotton.addEventListener("click", () => {
-console.log('clicked restart')
-boxes.forEach((box) => {
-    box.innerText = "";
-  });
-  title.innerText = `Tic Tac Toe`;
-  resultMessage.innerText = ``
-  playerGoMsg.innerHTML = ``;
-})
+// const restartBotton = document.getElementById("game__restart");
+// restartBotton.addEventListener("click", () => {
+// console.log('clicked restart')
+// boxes.forEach((box) => {
+//     box.innerText = "";
+//   });
+//   title.innerText = `Tic Tac Toe`;
+//   resultMessage.innerText = ``
+//   playerGoMsg.innerHTML = ``;
+// })
 
 
 
