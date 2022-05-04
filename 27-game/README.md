@@ -95,22 +95,27 @@ RESTART FUNCTION:
     The 20000 at the end will make sure that this function executes after 20 second.
 
 
+
+
+
+
 RESTART BUTTON: 
 
-If you want to restart the game with a button tgis piece of code should do it, 
-I removed it from the game as my setTimeout function interferes with the restart button.
-I selected to go with only the setTimeout function instead of both.
+    If you want to restart the game with a button tgis piece of code should do it, 
+    I removed it from the game as my setTimeout function interferes with the restart button.
+    I selected to go with only the setTimeout function instead of both.
 
-// restartButton function for the restart button, when click reset our boxes to null and clear the boxes
-// reset out title and result message.
+    restartButton function for the restart button, when click reset our boxes to null and clear the boxes
+    reset out title and result message.
 
-// const restartBotton = document.getElementById("game__restart");
-// restartBotton.addEventListener("click", () => {
-// console.log('clicked restart')
-// boxes.forEach((box) => {
-//     box.innerText = "";
-//   });
-//   title.innerText = `Tic Tac Toe`;
-//   resultMessage.innerText = ``
-//   playerGoMsg.innerHTML = ``;
-// })
+    const restartBotton = document.getElementById("game__restart");
+    restartBotton.addEventListener("click", () => {
+    console.log('clicked restart')
+    boxes.forEach((box) => {
+        box.innerText = "";
+    });
+    title.innerText = `Tic Tac Toe`;
+    resultMessage.innerText = ``
+    playerGoMsg.innerHTML = ``;
+    gameOver = false;
+    })
