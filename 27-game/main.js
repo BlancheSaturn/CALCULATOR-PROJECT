@@ -1,94 +1,56 @@
-// The four elements box, game__title, game__result-message and game_restart I need to manipulate the game
-// Acceing access the DOM for these elements
 const boxes = document.querySelectorAll(".box");
-const title = document.getElementById("game__title");
+const title = document.getElementById("title");
 const resultMessage = document.getElementById("game__result-message");
 const playerGoMsg = document.getElementById("playerTurn");
 
+const container = [];
+const playCircle = "O";
+const playX = "X";
+let currentPlayer = playCircle;
 
-// I have to define a few variables to use in our function
-const container = []; // container variable is an empty array
-const playCircle = "O"; //defining O and X as user need them for playing the game
-const playX = "X"; //defining O and X as user need them for playing the game
-let currentPlayer = playCircle; // variable that set the currentPlayer to O at the start of the game
 
-//  clickBoxes function takes the event as an argument.
 boxes.forEach((box) => {
-  // Using forEach to add the eventlistener to multiple elements (my boxes on my page)
+  // used forEach access all the boxes
   box.addEventListener("click", (event) => {
     console.log("clicked button");
-    // Assigning a variable called clickBoxes, which will store the ID of the clicked box.
-    // The event.target.id gives us the ID of the div.
-    const clickBoxes = event.target.id;
-    // The !container[checkBoxes] checks if the position is empty. When true, I assign the currentPlayer value to area.
-    // I assign the currentPlayer symbol which can be 'X' or 'O'
+
+    if (gameOver) {
+      return;
+    }
+    const clickBoxes = event.target.id; // takes the event as an argument.
     if (!container[clickBoxes]) {
+      // checks if box is empty assign value to area
       container[clickBoxes] = currentPlayer;
       event.target.innerText = currentPlayer;
-      //   calling the function gameWon inside the if statement, if the function returns true then we change the heading
-      //  innerText depending on which player has won.
+      //   calling the function gameWon
       if (gameWon()) {
         title.innerText = `Player ${currentPlayer} has won!`;
         //  calling function to restart our game. The return statement will take us out of the condition.
-        playerGoMsg.innerHTML = ``;
-        disableGame();
+        playerGoMsg.innerText = ``;
+        gameOver = true;
         restart();
         return;
       }
       // calling function gameDraw.
       if (gameDraw()) {
-        playerGoMsg.innerHTML = ``; //ISSUE this message not clearing when game is drawn
+        playerGoMsg.innerText = ``;
         return;
       }
-      // Function to change the currentPlayer depending on the last symbol.
-      // It is checking if the currentPlayer symbol is the circle, then we change it to "X", otherwise "O".
-      // We are using a ternary operator here to assign a new player,
-      //  This operator is an alternative to an if...else statement.
+      // This piece of code is checking if the currentPlayer symbol is the circle, then we change it to "X", otherwise "O".
       currentPlayer = currentPlayer === playCircle ? playX : playCircle;
-      playerGoMsg.innerHTML = `It's ${currentPlayer}'s turn`;
+      playerGoMsg.innerText = `It's ${currentPlayer}'s turn`;
     }
   });
 });
 
-// Need a function for the combination that can win the game
-// gameWon function will check for the winning combinations on the game
-// I am checking each of the conditions that for the winning combinations
-// If a condition passes, then I are showing the resultMessage on my game__result-message h2 using innerText
-// then we are returning true. The return true value is important, on the clickBoxes function,
-// we wait for the return value in our conditional statement.
 
-//   Possible winning combinations:
-//     [0, 1, 2],
-//     [3, 4, 5],
-//     [6, 7, 8],
-//     [0, 3, 6],
-//     [1, 4, 7],
-//     [2, 5, 8],
-//     [0, 4, 8],
-//     [2, 4, 6]
-
-// In these combination index 0 is the common index and the possible combinations will be
-// 0, 1 and 2
-// 0, 3 and 6
-// 0, 4 and 8
-
-// Here index position 8 is the common index and the possible combinations will be
-// 2,5 and 8
-// 6,7 and 8
-// 0,4 and 8 is already covered
-
-// Here for the index position 4, the combinations are
-// 2, 4 and 6
-// 1, 4 and 7
-// 3, 4 and 5
-
-
+// gameWon function checks for the winning combinations on the game
+// If a condition passes, then it shows the resultMessage on my game__result-message h2 using innerText
+// then I am also returning true.
 const gameWon = () => {
-  // if (gameOver === true) {
-  //   return;
-  // }
-  if (container[0] === currentPlayer) { // constant index 0
-    
+  if (container[0] === currentPlayer) {
+    // constant index 0
+
     if (container[1] === currentPlayer && container[2] === currentPlayer) {
       resultMessage.innerText = `Congratulations!`;
       return true;
@@ -102,8 +64,9 @@ const gameWon = () => {
       return true;
     }
   }
-  if (container[8] === currentPlayer) { // constant index 8
-    
+  if (container[8] === currentPlayer) {
+    // constant index 8
+
     if (container[2] === currentPlayer && container[5] === currentPlayer) {
       resultMessage.innerText = `Good Game!`;
       return true;
@@ -113,8 +76,9 @@ const gameWon = () => {
       return true;
     }
   }
-  if (container[4] === currentPlayer) {// constant index 4
-    
+  if (container[4] === currentPlayer) {
+    // constant index 4
+
     if (container[1] === currentPlayer && container[7] === currentPlayer) {
       resultMessage.innerText = `Fantastic'!`;
       return true;
@@ -129,49 +93,36 @@ const gameWon = () => {
     }
   }
 };
-// ISSUE - I NEED TO DISABLE CONTAINER WHEN A GAME IS WON??? disable container Function
-// let disableAreas = true
-// const disableBoxes = []
-// const disableGame = () => {
-//   if (disableAreas === false) {
-  // document.querySelectorAll('.box')
-//  disableBoxes.forEach(box => box.disabled = true)
-//   }
-// }
-
-let gameOver = false
-const disableBoxes = document.querySelectorAll('.box')
-const disableGame = (_finish) => { 
-  if(gameOver === true)
- disableBoxes.forEach(box => box.disabled = true)
- return;
-}
 
 
-  
-// gameDraw function. This function is checking to see if 
-// all the boxes are filled and no winning condition is met, then the match is a draw. 
-// I am using a different approach for this function. I am using a variable that will increment after each box is clicked. 
-// Because we have 8 boxes in total, if the counter becomes equal to 8, then we say that the match is drawn.
+// disableGame function, disable the rest of the boxes when the game is won.
+
+let gameOver = false;
+const disableBoxes = document.querySelectorAll(".box");
+const disableGame = (_finish) => {
+  if (gameOver) disableBoxes.forEach((box) => (box.disabled = true));
+  return;
+};
+
+// gameDraw function. This function is checking to see if
+// all the boxes are filled and no winning condition is met, then the match is a draw.
 
 const gameDraw = () => {
   let draw = 0;
   container.forEach((_area, i) => {
-    if (container[i] !== null) draw++;
+    if (container[i] !== null) draw++; // variable increment after each box is clicked.
   });
-  if (draw === 9) {
+  if (draw === 9) { // if the counter becomes equal to 9, then we say that the match is drawn.
     title.innerText = `Game ended in a draw!`;
-    playerGoMsg.innerHTML = ``; //ISSUE
+    playerGoMsg.innerText = ``;
     restart();
+    return true;
   }
 };
 
-// restart function. I am putting all the code inside the function into a setTimeout method. 
-// The setTimeout function waits for a defined amount of time and then executes whatever function is created inside it. 
-// I assign all the container with a null value. This is done using a forEach loop here.
-// Change all the boxes values to blank, this is also done using a forEach loop. changing the title  
-// to original and reset resultMessage and playerGoMsg text to blank. 
-// The 1000 at the end will make sure that this function executes after one second.
+// restart function. 
+// The setTimeout function waits for a defined amount of time and then executes whatever function is created inside it.
+// The 20000 at the end will make sure that this function executes after 20 second.
 
 const restart = () => {
   setTimeout(() => {
@@ -184,25 +135,7 @@ const restart = () => {
     title.innerText = `Tic Tac Toe`;
     resultMessage.innerText = ``;
     playerGoMsg.innerHTML = ``;
-  }, 50000);
+  }, 10000);
 };
-
-// restartButton function for the restart button, when click reset our boxes to null and clear the boxes
-// reset out title and result message. 
-
-// Issues when I clicked restart button, i think it waiting for my setTimeout seconds to 
-// finish b4 I can play game properly again 
-// const restartBotton = document.getElementById("game__restart");
-// restartBotton.addEventListener("click", () => {
-// console.log('clicked restart')
-// boxes.forEach((box) => {
-//     box.innerText = "";
-//   });
-//   title.innerText = `Tic Tac Toe`;
-//   resultMessage.innerText = ``
-//   playerGoMsg.innerHTML = ``;
-// })
-
-
 
 
