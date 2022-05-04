@@ -88,6 +88,7 @@ GAMEDRAW FUNCTION:
 
 
 RESTART FUNCTION:
+    
     I've placed all the code inside the function into a setTimeout method.
     The setTimeout function waits for a defined amount of time and then executes whatever function is created inside it.
     I assigned all the container with a null value. This is done using a forEach loop here.
