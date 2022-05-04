@@ -8,7 +8,6 @@ const playCircle = "O";
 const playX = "X";
 let currentPlayer = playCircle;
 
-
 boxes.forEach((box) => {
   // used forEach access all the boxes
   box.addEventListener("click", (event) => {
@@ -42,7 +41,6 @@ boxes.forEach((box) => {
     }
   });
 });
-
 
 // gameWon function checks for the winning combinations on the game
 // If a condition passes, then it shows the resultMessage on my game__result-message h2 using innerText
@@ -94,7 +92,6 @@ const gameWon = () => {
   }
 };
 
-
 // disableGame function, disable the rest of the boxes when the game is won.
 
 let gameOver = false;
@@ -112,7 +109,8 @@ const gameDraw = () => {
   container.forEach((_area, i) => {
     if (container[i] !== null) draw++; // variable increment after each box is clicked.
   });
-  if (draw === 9) { // if the counter becomes equal to 9, then we say that the match is drawn.
+  if (draw === 9) {
+    // if the counter becomes equal to 9, then we say that the match is drawn.
     title.innerText = `Game ended in a draw!`;
     playerGoMsg.innerText = ``;
     restart();
@@ -120,9 +118,9 @@ const gameDraw = () => {
   }
 };
 
-// restart function. 
+// restart function.
 // The setTimeout function waits for a defined amount of time and then executes whatever function is created inside it.
-// The 20000 at the end will make sure that this function executes after 20 second.
+// The 15000 at the end will make sure that this function executes after 15 second.
 
 const restart = () => {
   setTimeout(() => {
@@ -135,7 +133,6 @@ const restart = () => {
     title.innerText = `Tic Tac Toe`;
     resultMessage.innerText = ``;
     playerGoMsg.innerHTML = ``;
+    gameOver = false;
   }, 10000);
 };
-
-
